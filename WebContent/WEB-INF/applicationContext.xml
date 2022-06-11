@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+       
+       <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+       		p:driverClass="com.mysql.jdbc.Driver"
+       		p:jdbcUrl="jdbc:mysql://127.0.0.1:3306/lvyou?useUnicode=true&amp;characterEncoding=UTF-8"
+       		p:user="root"
+       		p:password="uAiqwVwjJ8-i"
+       		p:maxPoolSize="40"
+       		p:minPoolSize="2"
+       		p:initialPoolSize="2"
+       		p:maxIdleTime="30"/>
+       	
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+			p:prefix="/"
+       		p:suffix=".html"/>
+       		
+       	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+       		p:dataSource-ref="dataSource">
+       			
+	       	<property name="hibernateProperties">
+	       		<props>
+		       		<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+		      		<prop key="hibernate.show_sql">true</prop>
+		       	</props>
+	       	</property>
+	       	
+	       	<property name="annotatedClasses">
+	       		<list>
+	       			<value>com.xafdy.entity.Item</value>
+	       			<value>com.xafdy.entity.Foods</value>
+	       			<value>com.xafdy.entity.Admin</value>
+	       			<value>com.xafdy.entity.User</value>
+	       			<value>com.xafdy.entity.Comment</value>
+	       		</list>
+	       	</property>
+       	</bean>
+       	
+       	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager" p:sessionFactory-ref="sessionFactory"/>
+   		<tx:advice id="txAdvice" transaction-manager="transactionManager">
+    		<tx:attributes>
+    			<tx:method name="get*" read-only="true"/>
+    			<tx:method name="*" isolation="DEFAULT" propagation="REQUIRED" timeout="50"/>
+    		</tx:attributes>
+   		</tx:advice>
+       	
+       	<aop:config>
+       		<aop:pointcut id="servicePointCuT" expression="execution(* com.xafdy.service.*Service.*(..))" />
+       		<aop:advisor advice-ref="txAdvice" pointcut-ref="servicePointCuT"/>
+       	</aop:config>
+       	
+       	<bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<property name="defaultEncoding" value="UTF-8"></property>
+		</bean>
+		
+		<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+		
+		<context:component-scan base-package="com.xafdy">
+    		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		</context:component-scan>
+       
+       
+</beans>

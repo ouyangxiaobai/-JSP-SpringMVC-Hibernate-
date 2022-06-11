@@ -1,0 +1,67 @@
+@charset "UTF-8";
+
+.bm_title {
+	font-size:20px;
+	color:#666;
+	padding:10px 10px;
+	background:#EEE; 
+	margin-bottom:30px;
+	cursor:pointer;
+}
+
+.footer {
+	background:#EEE;
+	text-align:center;
+	padding:30px 0px;
+}
+
+.bm2_title {
+	font-size:32px;
+	color:#333;
+}
+
+.bm2_address {
+	font-size:22px;
+	color:#666;
+}
+
+.bm2_price {
+	font-size:42px;
+	color:#1E9FD9
+}
+
+.bm2_br {
+	text-align:center;
+	font-size:22px;
+	color:#999
+}
+
+.bm2_content { 
+	line-height:42px;
+	font-size:18px;
+	color:#333
+}
+
+.bm3_title {
+	font-size:28px;
+	margin:50px 0px;
+}
+
+.searchInput {
+	width:99%;
+	height:50px;
+	border:none; 
+	background:#FFF;
+	border:solid 1px #CCC;
+	padding-left:10px;
+}
+
+.searchButton {
+	width:99%;
+	height:50px;
+	border:none; 
+	background:#1E9FD9;
+	border:solid 1px #CCC;
+	color:#FFF
+	
+}
